@@ -1,0 +1,115 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8"/>
+  <title>Spring Boot Thymeleaf Application - Bootstrap Input Mask</title>
+
+  <link th:rel="stylesheet" th:href="@{webjars/bootstrap/5.3.2/css/bootstrap.min.css} "/>
+  <link th:rel="stylesheet" th:href="@{webjars/font-awesome/6.5.1/css/all.css} "/>
+</head>
+<body>
+
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
+  <div class="container">
+    <a class="navbar-brand" href="/usuaris">Biblioteca</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+            aria-controls="navbarResponsive"
+            aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="/usuaris">Usuaris
+            <span class="sr-only">(current)</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/prestecs">Prestecs</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-lg-6 mx-auto">
+      <!-- Agrega el borde alrededor del formulario -->
+      <div class="border border-dark p-4">
+        <form action="/insertarllibres" method="post" th:object="${llibre}" class="needs-validation" novalidate>
+          <div class="mb-3">
+            <label for="isbn" class="form-label">ISBN</label>
+            <input type="text" class="form-control" id="isbn" data-inputmask="'alias': 'isbn'"
+                   autocomplete="off" th:field="*{isbn}" required/>
+            <div class="invalid-feedback">
+              Please provide a valid ISBN.
+            </div>
+          </div>
+
+
+          <div class="mb-3">
+            <label for="titol" class="form-label">Titol</label>
+            <input type="text" class="form-control" id="titol" data-inputmask="'alias': 'titol'"
+                   autocomplete="off" th:field="*{titol}" required/>
+            <div class="invalid-feedback">
+              Please provide a title.
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label for="categoria" class="form-label">Categoria</label>
+            <input type="text" class="form-control" id="categoria" data-inputmask="'alias': 'categoria'"
+                   autocomplete="off" th:field="*{categoria}" required/>
+            <div class="invalid-feedback">
+              Please provide a category.
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label for="preu" class="form-label">Preu</label>
+            <input type="text" class="form-control" id="preu" data-inputmask="'alias': 'preu'"
+                   autocomplete="off" th:field="*{preu}" required/>
+            <div class="invalid-feedback">
+              Please provide a valid price.
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label for="editorial" class="form-label">Editorial</label>
+            <input type="text" class="form-control" id="editorial" data-inputmask="'alias': 'editorial'"
+                   autocomplete="off" th:field="*{editorial}" required/>
+            <div class="invalid-feedback">
+              Please provide an editorial.
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label for="autor" class="form-label">Autor</label>
+            <input type="text" class="form-control" id="autor" data-inputmask="'alias': 'autor'"
+                   autocomplete="off" th:field="*{autor}" required/>
+            <div class="invalid-feedback">
+              Please provide an author.
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary btn-sm ms-auto">
+            <i class="fa-solid fa-download"></i>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+<script th:src="@{assets/inputmask/jquery.inputmask.min.js}"></script>
+
+<script>
+  $(":input").inputmask();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Spring Boot Thymeleaf Application - Bootstrap Table</title>
+
+    <link th:rel="stylesheet" th:href="@{webjars/bootstrap/5.3.2/css/bootstrap.min.css}"/>
+    <link th:rel="stylesheet" th:href="@{webjars/font-awesome/6.5.1/css/all.css}"/>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+            integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+            crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.css"/>
+    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.js"></script>
+
+</head>
+<body>
+
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
+    <div class="container">
+        <a class="navbar-brand" href="/usuaris">Biblioteca</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+                aria-controls="navbarResponsive"
+                aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/llibres">Llibres
+                        <span class="sr-only">(current)</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/prestecs">Prestecs</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-10 mt-5">
+            <form action="/insertarusuari" method="post" th:object="${usuari}">
+                <label for="dni" class="col-sm-4 col-form-label">DNI</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" id="dni" autocomplete="off" th:field="*{dni}"/>
+                </div>
+                <label for="nom" class="col-sm-4 col-form-label">Nom</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" id="nom" autocomplete="off" th:field="*{nom}"/>
+                </div>
+                <label for="telefon" class="col-sm-4 col-form-label">Telefon</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" id="telefon" autocomplete="off" th:field="*{telefon}"/>
+                </div>
+                <label for="correu" class="col-sm-4 col-form-label">Correu</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" id="correu" autocomplete="off" th:field="*{correu}"/>
+                </div>
+
+                <button class="btn btn-primary" type="submit">Submit form</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+
+</body>
+</html>

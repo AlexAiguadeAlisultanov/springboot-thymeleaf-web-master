@@ -1,0 +1,79 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8"/>
+  <title>Spring Boot Thymeleaf Application - Bootstrap Table</title>
+  <link th:rel="stylesheet" th:href="@{webjars/bootstrap/5.3.2/css/bootstrap.min.css} "/>
+  <link th:rel="stylesheet" th:href="@{webjars/font-awesome/6.5.1/css/all.css} "/>
+</head>
+<body>
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
+  <div class="container">
+    <a class="navbar-brand" href="/usuaris">Biblioteca</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+            aria-controls="navbarResponsive"
+            aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="/usuaris">Usuaris
+            <span class="sr-only">(current)</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/prestecs">Prestecs</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<div class="container">
+  <div class="row">
+    <div class="col-lg-10 mt-5 mb-5">
+      <!-- En tu vista "llibres" -->
+      <div th:if="${error}" class="alert alert-danger">
+        <p th:text="${error}"></p>
+      </div>
+      <table id="example" class="table table-bordered" style="width: 100%">
+        <thead>
+        <tr>
+          <th>isbn</th>
+          <th>titol</th>
+          <th>categoria</th>
+          <th>preu</th>
+          <th>editorial</th>
+          <th>autor</th>
+          <th>esborrar</th>
+          <th>actualitzar</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!– INFORMACION QUE SALDRA AL MOSTRAR LIBROS –>
+        <tr th:each="llibre : ${llibres}">
+          <td th:text="${llibre.Isbn}">ISBN</td>
+          <td th:text="${llibre.titol}">TITOL</td>
+          <td th:text="${llibre.categoria}">CATEGORIA</td>
+          <td th:text="${llibre.preu}">PREU</td>
+          <td th:text="${llibre.editorial}">EDITORIAL</td>
+          <td th:text="${llibre.autor}">AUTOR</td>
+          <td><a th:href="@{/esborrar/{isbn}(isbn=${llibre.Isbn})}"><i class="fa-solid fa-trash"></i></a></td>
+          <td><a th:href="@{/editarllibres/{isbn}(isbn=${llibre.Isbn})}"><i class="fa-solid fa-pen-to-square"></i></a></td>
+        </tr>
+        </tbody>
+      </table>
+      <div class="container mt-3">
+        <a href="/afegirllibres" class="btn btn-primary">
+          <i class="fa-solid fa-plus"></i> Afegir llibre
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+</body>
+</html>
