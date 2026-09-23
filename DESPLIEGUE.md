@@ -4,6 +4,17 @@ El `Dockerfile` compila el proyecto y lo arranca, así que el hosting no necesit
 tener Java ni Maven instalados. Vale para Render, Koyeb, Fly.io o cualquier sitio
 que sepa construir una imagen de Docker.
 
+
+## El botón
+
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/AlexAiguadeAlisultanov/springboot-thymeleaf-web-master)
+
+Al pulsarlo, Render lee el `render.yaml` de este repositorio, crea el servicio
+con la configuración ya puesta y solo te pide los valores de las variables. Hace
+falta una cuenta de Render, que se crea entrando con GitHub y es gratis.
+
+Los pasos de abajo son lo mismo a mano, por si prefieres verlo.
+
 ## En Render
 
 1. New → Web Service, y conecta este repositorio.

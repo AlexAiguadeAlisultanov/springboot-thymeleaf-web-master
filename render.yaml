@@ -1,0 +1,16 @@
+# Plano de despliegue. Render lo lee al pulsar el boton de DESPLIEGUE.md y crea
+# el servicio ya configurado. Las variables marcadas con 'sync: false' las
+# pregunta al desplegar, para que ningun secreto viva dentro del repositorio.
+services:
+  - type: web
+    name: inventario-de-libros
+    runtime: docker
+    plan: free
+    region: frankfurt
+    envVars:
+      - key: SPRING_DATASOURCE_URL
+        sync: false
+      - key: SPRING_DATASOURCE_USERNAME
+        sync: false
+      - key: SPRING_DATASOURCE_PASSWORD
+        sync: false
