@@ -1,79 +1,178 @@
 <!DOCTYPE HTML>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-  <meta charset="UTF-8"/>
-  <title>Spring Boot Thymeleaf Application - Bootstrap Table</title>
-  <link th:rel="stylesheet" th:href="@{webjars/bootstrap/5.3.2/css/bootstrap.min.css} "/>
-  <link th:rel="stylesheet" th:href="@{webjars/font-awesome/6.5.1/css/all.css} "/>
-</head>
+<html lang="es" th:lang="${#locale.language}" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/base :: cap('titulo.libros')}"></head>
 <body>
-<!-- Navigation -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
-  <div class="container">
-    <a class="navbar-brand" href="/usuaris">Biblioteca</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
-            aria-controls="navbarResponsive"
-            aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarResponsive">
-      <ul class="navbar-nav ml-auto">
-        <li class="nav-item active">
-          <a class="nav-link" href="/usuaris">Usuaris
-            <span class="sr-only">(current)</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/prestecs">Prestecs</a>
-        </li>
-      </ul>
-    </div>
-  </div>
-</nav>
-<div class="container">
-  <div class="row">
-    <div class="col-lg-10 mt-5 mb-5">
-      <!-- En tu vista "llibres" -->
-      <div th:if="${error}" class="alert alert-danger">
-        <p th:text="${error}"></p>
-      </div>
-      <table id="example" class="table table-bordered" style="width: 100%">
-        <thead>
-        <tr>
-          <th>isbn</th>
-          <th>titol</th>
-          <th>categoria</th>
-          <th>preu</th>
-          <th>editorial</th>
-          <th>autor</th>
-          <th>esborrar</th>
-          <th>actualitzar</th>
-        </tr>
-        </thead>
-        <tbody>
-        <!– INFORMACION QUE SALDRA AL MOSTRAR LIBROS –>
-        <tr th:each="llibre : ${llibres}">
-          <td th:text="${llibre.Isbn}">ISBN</td>
-          <td th:text="${llibre.titol}">TITOL</td>
-          <td th:text="${llibre.categoria}">CATEGORIA</td>
-          <td th:text="${llibre.preu}">PREU</td>
-          <td th:text="${llibre.editorial}">EDITORIAL</td>
-          <td th:text="${llibre.autor}">AUTOR</td>
-          <td><a th:href="@{/esborrar/{isbn}(isbn=${llibre.Isbn})}"><i class="fa-solid fa-trash"></i></a></td>
-          <td><a th:href="@{/editarllibres/{isbn}(isbn=${llibre.Isbn})}"><i class="fa-solid fa-pen-to-square"></i></a></td>
-        </tr>
-        </tbody>
-      </table>
-      <div class="container mt-3">
-        <a href="/afegirllibres" class="btn btn-primary">
-          <i class="fa-solid fa-plus"></i> Afegir llibre
+
+<a class="salta" href="#contingut" th:text="#{nav.saltar}">Ve al contenido</a>
+<header th:replace="~{fragments/base :: barra('llibres')}"></header>
+
+<main class="pagina" id="contingut">
+
+    <div class="capcalera">
+        <div>
+            <h1 th:text="#{libros.titulo}">Libros</h1>
+            <p class="subtitol">
+                <span th:if="${#lists.size(llibres) == 1}" th:text="#{libros.recuento.uno}">1 título en el
+                    catálogo</span>
+                <span th:unless="${#lists.size(llibres) == 1}"
+                      th:text="#{libros.recuento.varios(${#lists.size(llibres)})}">0 títulos en el catálogo</span>
+            </p>
+        </div>
+        <a class="boto boto-primari" th:href="@{/afegirllibres}">
+            <svg class="ico-s" aria-hidden="true">
+                <use href="#mes"></use>
+            </svg>
+            <span th:text="#{libros.anadir}">Añade un libro</span>
         </a>
-      </div>
     </div>
-  </div>
-</div>
-<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
-<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
-<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+
+    <!-- El controlador manda un código de error; aquí se traduce al idioma activo. -->
+    <div class="avis-error" role="alert" th:if="${error}">
+        <svg class="ico-s" aria-hidden="true">
+            <use href="#avis"></use>
+        </svg>
+        <span th:text="${#messages.msgOrNull('error.' + error, ref)} ?: ${error}">Mensaje de error</span>
+    </div>
+
+    <div th:if="${not #lists.isEmpty(llibres)}">
+
+        <div class="barra-eines">
+            <div class="cercador">
+                <svg class="ico-s" aria-hidden="true">
+                    <use href="#cercar"></use>
+                </svg>
+                <label class="nomes-lector" for="cerca-llibres" th:text="#{libros.buscar.etiqueta}">Busca
+                    dentro del catálogo</label>
+                <input type="search" id="cerca-llibres" data-cerca="taula-llibres" autocomplete="off"
+                       th:attr="placeholder=#{libros.buscar.marcador}"/>
+            </div>
+            <p class="recompte" data-recompte="taula-llibres" aria-live="polite"
+               th:attr="data-plantilla-filtre=#{libros.contador.filtrado}"
+               th:text="#{libros.contador(${#lists.size(llibres)})}">0 libros</p>
+        </div>
+
+        <div class="plafo">
+            <div class="taula-marc">
+                <table class="taula" id="taula-llibres">
+                    <caption class="nomes-lector" th:text="#{libros.leyenda}">Libros del catálogo</caption>
+                    <thead>
+                    <tr>
+                        <th scope="col" class="ordenable" data-tipus="text">
+                            <button type="button">
+                                <span th:text="#{campo.titulo}">Título</span>
+                                <svg class="ico-s fletxa" aria-hidden="true">
+                                    <use href="#ordena"></use>
+                                </svg>
+                            </button>
+                        </th>
+                        <th scope="col" class="ordenable" data-tipus="text">
+                            <button type="button">
+                                <span th:text="#{campo.autor}">Autor</span>
+                                <svg class="ico-s fletxa" aria-hidden="true">
+                                    <use href="#ordena"></use>
+                                </svg>
+                            </button>
+                        </th>
+                        <th scope="col" th:text="#{campo.categoria}">Categoría</th>
+                        <th scope="col" th:text="#{campo.editorial}">Editorial</th>
+                        <th scope="col" th:text="#{campo.isbn}">ISBN</th>
+                        <th scope="col" class="ordenable cel-numerica" data-tipus="numero">
+                            <button type="button">
+                                <span th:text="#{campo.precio}">Precio</span>
+                                <svg class="ico-s fletxa" aria-hidden="true">
+                                    <use href="#ordena"></use>
+                                </svg>
+                            </button>
+                        </th>
+                        <th scope="col" class="cel-accions">
+                            <span class="nomes-lector" th:text="#{tabla.acciones}">Acciones</span>
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="llibre : ${llibres}">
+                        <td class="cel-principal" th:attr="data-etiqueta=#{campo.titulo}"
+                            th:text="${llibre.titol}">Título
+                        </td>
+                        <td class="cel-tenue" th:attr="data-etiqueta=#{campo.autor}"
+                            th:text="${llibre.autor}">Autor
+                        </td>
+                        <td th:attr="data-etiqueta=#{campo.categoria}">
+                            <span class="etiqueta" th:if="${llibre.categoria}"
+                                  th:text="${llibre.categoria}">Categoría</span>
+                        </td>
+                        <td class="cel-tenue" th:attr="data-etiqueta=#{campo.editorial}"
+                            th:text="${llibre.editorial}">Editorial
+                        </td>
+                        <td class="cel-tenue" th:attr="data-etiqueta=#{campo.isbn}"
+                            th:text="${llibre.isbn}">ISBN
+                        </td>
+                        <td class="cel-numerica"
+                            th:attr="data-etiqueta=#{campo.precio},data-valor=${llibre.preu}">
+                            <span th:if="${llibre.preu != null}"
+                                  th:text="${#numbers.formatDecimal(llibre.preu, 1, 2)} + ' €'">0,00 €</span>
+                            <span th:unless="${llibre.preu != null}" th:text="#{tabla.sinPrecio}">Sin precio</span>
+                        </td>
+                        <td class="cel-accions" data-etiqueta="">
+                            <span class="grup">
+                                <a class="accio" th:href="@{/editarllibres/{isbn}(isbn=${llibre.isbn})}"
+                                   th:attr="aria-label=#{libros.accion.editar(${llibre.titol})},
+                                            title=#{libros.accion.editar(${llibre.titol})}">
+                                    <svg class="ico-s" aria-hidden="true">
+                                        <use href="#editar"></use>
+                                    </svg>
+                                </a>
+                                <a class="accio accio-perill" th:href="@{/esborrar/{isbn}(isbn=${llibre.isbn})}"
+                                   th:attr="aria-label=#{libros.accion.borrar(${llibre.titol})},
+                                            title=#{libros.accion.borrar(${llibre.titol})},
+                                            data-confirma=#{libros.accion.confirmar(${llibre.titol})}">
+                                    <svg class="ico-s" aria-hidden="true">
+                                        <use href="#esborrar"></use>
+                                    </svg>
+                                </a>
+                            </span>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="buit" data-sense-resultats="taula-llibres" hidden>
+                <svg class="ico-l" aria-hidden="true">
+                    <use href="#cercar"></use>
+                </svg>
+                <h2 th:text="#{libros.sinResultados.titulo}">Ningún libro coincide</h2>
+                <p>
+                    <span th:text="#{libros.sinResultados.texto}">No hay nada en el catálogo que encaje
+                        con</span>
+                    «<strong data-consulta></strong>».
+                    <span th:text="#{libros.sinResultados.pista}">Prueba con menos letras o con el apellido
+                        del autor.</span>
+                </p>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="plafo" th:if="${#lists.isEmpty(llibres)}">
+        <div class="buit">
+            <svg class="ico-l" aria-hidden="true">
+                <use href="#capsa"></use>
+            </svg>
+            <h2 th:text="#{libros.vacio.titulo}">El catálogo está vacío</h2>
+            <p th:text="#{libros.vacio.texto}">Todavía no hay ningún libro dado de alta.</p>
+            <a class="boto boto-primari" th:href="@{/afegirllibres}">
+                <svg class="ico-s" aria-hidden="true">
+                    <use href="#mes"></use>
+                </svg>
+                <span th:text="#{libros.vacio.accion}">Añade el primer libro</span>
+            </a>
+        </div>
+    </div>
+
+</main>
+
+<footer th:replace="~{fragments/base :: peu}"></footer>
+<script th:src="@{/js/app.js}" defer></script>
 </body>
 </html>

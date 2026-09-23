@@ -21,10 +21,12 @@ public class LlibreController {
     }
 
     @GetMapping("/llibres")
-    public String getLlibres(Model model, @RequestParam(name = "error", required = false) String error) {
+    public String getLlibres(Model model, @RequestParam(name = "error", required = false) String error,
+                             @RequestParam(name = "ref", required = false) String ref) {
         List<Llibre> llibres = repository.findAll();
         model.addAttribute("llibres", llibres);
-        model.addAttribute("error", error); // Agrega el mensaje de error al modelo
+        model.addAttribute("error", error);
+        model.addAttribute("ref", ref);
         return "Llibres/mostrar";
     }
     @GetMapping("/esborrar/{isbn}")
@@ -32,8 +34,7 @@ public class LlibreController {
         try{
             repository.deleteById(isbn);
         } catch (Exception e) {
-            String error = "No s'ha pogut esborrar el llibre amb isbn: " + isbn;
-            return "redirect:/llibres?error=" + URLEncoder.encode(error, StandardCharsets.UTF_8);
+            return "redirect:/llibres?error=llibre.esborrar&ref=" + URLEncoder.encode(isbn, StandardCharsets.UTF_8);
         }
         return "redirect:/llibres";
     }
@@ -54,8 +55,7 @@ public class LlibreController {
         try{
             repository.save(llibre);
         } catch (Exception e) {
-            String error = "No s'ha pogut afegir el llibre amb isbn: " + llibre.getIsbn();
-            return "redirect:/llibres?error=" + URLEncoder.encode(error, StandardCharsets.UTF_8);
+            return "redirect:/llibres?error=llibre.afegir&ref=" + URLEncoder.encode(llibre.getIsbn(), StandardCharsets.UTF_8);
         }
         return "redirect:/llibres";
     }

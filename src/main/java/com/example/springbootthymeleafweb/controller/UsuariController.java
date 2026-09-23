@@ -23,10 +23,12 @@ public class UsuariController {
     }
 
     @GetMapping("/usuaris")
-    public String getUsuaris(Model model, @RequestParam(name = "error", required = false) String error) {
+    public String getUsuaris(Model model, @RequestParam(name = "error", required = false) String error,
+                             @RequestParam(name = "ref", required = false) String ref) {
         List<Usuari> usuaris = repository.findAll();
         model.addAttribute("usuaris", usuaris);
         model.addAttribute("error", error);
+        model.addAttribute("ref", ref);
         return "Usuaris/mostrar";
     }
 
@@ -35,8 +37,7 @@ public class UsuariController {
         try {
             repository.deleteById(dni);
         } catch (Exception e) {
-            String error = "No s'ha pogut esborrar l'usuari amb DNI: " + dni;
-            return "redirect:/usuaris?error=" + URLEncoder.encode(error, StandardCharsets.UTF_8);
+            return "redirect:/usuaris?error=usuari.esborrar&ref=" + URLEncoder.encode(dni, StandardCharsets.UTF_8);
         }
         return "redirect:/usuaris";
     }

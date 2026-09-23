@@ -1,0 +1,69 @@
+<!DOCTYPE HTML>
+<html lang="es" th:lang="${#locale.language}" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/base :: cap('titulo.inicio')}"></head>
+<body>
+
+<a class="salta" href="#contingut" th:text="#{nav.saltar}">Ve al contenido</a>
+<header th:replace="~{fragments/base :: barra('inici')}"></header>
+
+<main class="pagina" id="contingut">
+
+    <section class="portada">
+        <h1 th:text="#{inicio.titulo}">La biblioteca, en orden</h1>
+        <p th:text="#{inicio.entrada}">Consulta el catálogo, da de alta títulos nuevos y lleva al día los
+            datos de quien tiene carné.</p>
+    </section>
+
+    <div class="graella-portada">
+
+        <a class="targeta" th:href="@{/llibres}">
+            <span class="targeta-emblema">
+                <svg class="ico" aria-hidden="true">
+                    <use href="#llibre"></use>
+                </svg>
+            </span>
+            <h2 th:text="#{inicio.libros.titulo}">Libros</h2>
+            <p th:text="#{inicio.libros.texto}">Todo el catálogo con el título, el autor, la editorial y el
+                precio.</p>
+            <span class="targeta-peu">
+                <span th:text="#{inicio.libros.accion}">Abre el catálogo</span>
+                <svg class="ico-s" aria-hidden="true">
+                    <use href="#dreta"></use>
+                </svg>
+            </span>
+        </a>
+
+        <a class="targeta" th:href="@{/usuaris}">
+            <span class="targeta-emblema">
+                <svg class="ico" aria-hidden="true">
+                    <use href="#usuaris"></use>
+                </svg>
+            </span>
+            <h2 th:text="#{inicio.usuarios.titulo}">Usuarios</h2>
+            <p th:text="#{inicio.usuarios.texto}">Quién tiene carné, con el DNI, el teléfono y el correo.</p>
+            <span class="targeta-peu">
+                <span th:text="#{inicio.usuarios.accion}">Abre la lista</span>
+                <svg class="ico-s" aria-hidden="true">
+                    <use href="#dreta"></use>
+                </svg>
+            </span>
+        </a>
+
+        <div class="targeta targeta-apagada">
+            <span class="targeta-emblema">
+                <svg class="ico" aria-hidden="true">
+                    <use href="#prestec"></use>
+                </svg>
+            </span>
+            <h2 th:text="#{inicio.prestamos.titulo}">Préstamos</h2>
+            <p th:text="#{inicio.prestamos.texto}">Todavía no hay pantalla para ver quién tiene cada libro.</p>
+            <span class="etiqueta-estat" th:text="#{inicio.prestamos.estado}">Pendiente de hacer</span>
+        </div>
+
+    </div>
+
+</main>
+
+<footer th:replace="~{fragments/base :: peu}"></footer>
+</body>
+</html>
