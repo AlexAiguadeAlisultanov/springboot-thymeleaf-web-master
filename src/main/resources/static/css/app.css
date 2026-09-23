@@ -1,80 +1,52 @@
-/* Biblioteca. Sistema visual únic per a tota l'aplicació.
-   Un sol accent, una sola família tipogràfica, retícula de 8 punts. */
+/* Biblioteca. Sistema visual de tota l'aplicacio.
+   Fons gairebe negre, un sol accent ambre, reticula de 8 punts i radis 8/12/20.
+   Manen dues veus tipografiques amb feines separades: la serif nomes per als
+   titulars i per als noms de les obres, la sans per a tot el que es interficie. */
 
 /* ---------- Tokens ---------- */
 
 :root {
-    color-scheme: light dark;
+    color-scheme: dark;
 
-    --fons: #FBFBFA;
-    --superficie: #FFFFFF;
-    --superficie-2: #F3F3F2;
-    --superficie-3: #EAEAE8;
+    --fons: #0B0B0A;
+    --fons-2: #121210;
+    --fons-3: #191916;
+    --linia: #272722;
+    --linia-suau: #1D1D19;
 
-    --text: #1D1D1F;
-    --text-suau: #65656B;
-    --text-tenue: #8A8A90;
+    --tinta: #F4F2ED;
+    --tinta-2: #A8A49B;
+    --tinta-3: #86827A;
 
-    --linia: rgba(0, 0, 0, .10);
-    --linia-forta: rgba(0, 0, 0, .16);
+    --accent: #D9A441;
+    --accent-2: #E8C27E;
+    --accent-fons: #231B0C;
+    --sobre-accent: #1A1204;
 
-    --accent: #34618E;
-    --accent-fosc: #294E74;
-    --accent-tou: rgba(52, 97, 142, .10);
-    --sobre-accent: #FFFFFF;
+    --perill: #E0908A;
+    --perill-fons: #2A1614;
 
-    --perill: #9C3B33;
-    --perill-tou: rgba(156, 59, 51, .10);
-    --exit: #2F6B4F;
-    --avis: #8A6220;
+    --degradat: linear-gradient(180deg, #8A8073 0%, #EDE4D2 100%);
+    --contorn: #3C3930;
+
+    --lletra: "Inter", "Segoe UI Variable Text", -apple-system, BlinkMacSystemFont,
+    "SF Pro Text", "Segoe UI", Roboto, sans-serif;
+    --lletra-obra: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua",
+    "Hoefler Text", Georgia, serif;
 
     --r-s: 8px;
     --r-m: 12px;
     --r-l: 20px;
 
-    --ombra-1: 0 1px 2px rgba(0, 0, 0, .05), 0 1px 1px rgba(0, 0, 0, .03);
-    --ombra-2: 0 4px 16px rgba(0, 0, 0, .06), 0 1px 3px rgba(0, 0, 0, .04);
+    --suau: cubic-bezier(.22, .61, .36, 1);
+    --transicio: 180ms var(--suau);
 
-    --t-xs: .75rem;
-    --t-s: .8125rem;
-    --t-base: .9375rem;
-    --t-md: 1.125rem;
-    --t-lg: 1.375rem;
-    --t-xl: 1.75rem;
-    --t-2xl: 2.125rem;
-
-    --transicio: 180ms cubic-bezier(.32, .72, 0, 1);
-
-    --amplada: 1120px;
-}
-
-@media (prefers-color-scheme: dark) {
-    :root {
-        --fons: #0E0E10;
-        --superficie: #18181B;
-        --superficie-2: #202024;
-        --superficie-3: #2A2A2F;
-
-        --text: #F5F5F7;
-        --text-suau: #A5A5AC;
-        --text-tenue: #7C7C83;
-
-        --linia: rgba(255, 255, 255, .10);
-        --linia-forta: rgba(255, 255, 255, .18);
-
-        --accent: #8FB8DE;
-        --accent-fosc: #A9CBEC;
-        --accent-tou: rgba(143, 184, 222, .14);
-        --sobre-accent: #10161D;
-
-        --perill: #E39189;
-        --perill-tou: rgba(227, 145, 137, .13);
-        --exit: #7FC0A0;
-        --avis: #D6AE6C;
-
-        --ombra-1: 0 1px 2px rgba(0, 0, 0, .40);
-        --ombra-2: 0 4px 20px rgba(0, 0, 0, .45), 0 1px 3px rgba(0, 0, 0, .30);
-    }
+    /* El marge lateral creix amb la finestra en comptes de tancar la pagina dins
+       d'una columna fixa. El que no s'estira es el text: cada bloc guarda la seva
+       mida de linia i l'espai que sobra es reparteix en la composicio. */
+    --marc: clamp(1.25rem, 3.4vw, 7rem);
+    --ample-max: 2560px;
+    --barra: 56px;
 }
 
 /* ---------- Base ---------- */
@@ -85,32 +57,36 @@
     box-sizing: border-box;
 }
 
+* {
+    min-width: 0;
+}
+
 html {
     -webkit-text-size-adjust: 100%;
+    scroll-padding-top: calc(var(--barra) + 16px);
 }
 
 body {
     margin: 0;
     background: var(--fons);
-    color: var(--text);
-    font-family: "Segoe UI Variable Text", "Segoe UI", -apple-system, BlinkMacSystemFont,
-    "SF Pro Text", Inter, system-ui, sans-serif;
-    font-size: var(--t-base);
-    line-height: 1.5;
+    color: var(--tinta);
+    font-family: var(--lletra);
+    font-size: .9375rem;
+    line-height: 1.6;
+    font-synthesis-weight: none;
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+    overflow-x: clip;
 }
 
 h1, h2, h3 {
-    font-family: "Segoe UI Variable Display", "Segoe UI", -apple-system, BlinkMacSystemFont,
-    "SF Pro Display", Inter, system-ui, sans-serif;
-    font-weight: 600;
-    letter-spacing: -.018em;
     margin: 0;
+    font-weight: 600;
     line-height: 1.2;
+    letter-spacing: -.01em;
 }
 
 p {
@@ -123,33 +99,97 @@ a {
 }
 
 a:hover {
-    text-decoration: underline;
-    text-underline-offset: 3px;
+    color: var(--accent-2);
 }
 
 :focus-visible {
     outline: 2px solid var(--accent);
-    outline-offset: 2px;
-    border-radius: var(--r-s);
+    outline-offset: 3px;
+    border-radius: 4px;
 }
 
 ::selection {
-    background: var(--accent-tou);
+    background: var(--accent-fons);
+    color: var(--accent-2);
 }
 
 svg {
     flex: none;
 }
 
+/* ---------- Amplada de pagina ---------- */
+
+.ample {
+    width: 100%;
+    max-width: var(--ample-max);
+    margin-inline: auto;
+    padding-inline: var(--marc);
+}
+
+/* ---------- Titulars ----------
+   El degradat es retalla sobre el text. Si el navegador no el sap retallar,
+   queda el color pla, que es per a aixo que hi es. */
+
+.titular {
+    font-family: var(--lletra-obra);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .012em;
+    line-height: .95;
+    /* Amb l'interlineat tan estret la caixa es queda per sota dels accents de les
+       majuscules. Aquest respir de dalt els salva. */
+    padding-block-start: .14em;
+    color: #E3D9C6;
+    background: var(--degradat);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-wrap: balance;
+}
+
+.titular-xxl {
+    font-size: clamp(2.5rem, 8.6vw, 10rem);
+}
+
+.titular-l {
+    font-size: clamp(1.875rem, 4.4vw, 4.5rem);
+}
+
+/* ---------- Numeracio de seccio ---------- */
+
+.num {
+    font-family: var(--lletra-obra);
+    font-weight: 700;
+    font-size: clamp(2.25rem, 6vw, 5.5rem);
+    line-height: .8;
+    letter-spacing: -.02em;
+    color: transparent;
+    -webkit-text-stroke: 1px var(--contorn);
+    transition: -webkit-text-stroke-color var(--transicio);
+}
+
+@supports not (-webkit-text-stroke: 1px currentColor) {
+    .num {
+        color: var(--contorn);
+    }
+}
+
+/* ---------- Retols petits ---------- */
+
+.antetitol {
+    font-size: .8125rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: .18em;
+    color: var(--accent);
+}
+
 /* ---------- Icones ---------- */
 
-/* El joc d'icones viu inline dins la capçalera i no es pinta mai directament */
 .sprite {
     display: none;
 }
 
-/* El gruix i els extrems del traç els porta cada símbol, perquè el contingut
-   referenciat amb <use> no sempre hereta l'estil de la pàgina. Aquí només mida i color. */
 .ico {
     width: 20px;
     height: 20px;
@@ -166,25 +206,24 @@ svg {
     height: 24px;
 }
 
-/* ---------- Enllaç per saltar al contingut ---------- */
+/* ---------- Salt al contingut ---------- */
 
 .salta {
     position: absolute;
     left: 16px;
     top: -60px;
-    z-index: 30;
-    background: var(--superficie);
-    color: var(--text);
-    border: 1px solid var(--linia-forta);
+    z-index: 60;
+    background: var(--accent);
+    color: var(--sobre-accent);
+    font-weight: 600;
     border-radius: var(--r-s);
     padding: 8px 16px;
-    box-shadow: var(--ombra-2);
     transition: top var(--transicio);
 }
 
 .salta:focus {
     top: 16px;
-    text-decoration: none;
+    color: var(--sobre-accent);
 }
 
 /* ---------- Barra superior ---------- */
@@ -192,9 +231,9 @@ svg {
 .barra {
     position: sticky;
     top: 0;
-    z-index: 20;
-    background: color-mix(in srgb, var(--fons) 86%, transparent);
-    backdrop-filter: saturate(160%) blur(12px);
+    z-index: 40;
+    background: color-mix(in srgb, var(--fons) 82%, transparent);
+    backdrop-filter: saturate(140%) blur(14px);
     border-bottom: 1px solid var(--linia);
 }
 
@@ -204,31 +243,27 @@ svg {
     }
 }
 
-/* Es pot embolicar: quan la marca, les seccions i el selector d'idioma no caben
-   en una línia, el selector baixa a la següent en comptes de desbordar. */
 .barra-cos {
-    max-width: var(--amplada);
-    margin: 0 auto;
-    padding: 8px 24px;
-    min-height: 56px;
+    min-height: var(--barra);
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: 8px 24px;
+    gap: 8px 32px;
+    padding-block: 8px;
 }
 
 .marca {
     display: inline-flex;
     align-items: center;
-    gap: 8px;
-    color: var(--text);
+    gap: 10px;
+    color: var(--tinta);
     font-weight: 600;
     letter-spacing: -.01em;
     white-space: nowrap;
 }
 
 .marca:hover {
-    text-decoration: none;
+    color: var(--tinta);
 }
 
 .marca .ico {
@@ -237,6 +272,7 @@ svg {
 
 .navegacio {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     gap: 4px;
     margin-left: auto;
@@ -244,135 +280,262 @@ svg {
 
 .nav-enllac {
     display: inline-flex;
-    align-items: center;
+    align-items: baseline;
     gap: 8px;
-    padding: 7px 12px;
+    padding: 8px 12px;
     border-radius: var(--r-s);
-    color: var(--text-suau);
-    font-size: var(--t-s);
-    font-weight: 500;
-    transition: background var(--transicio), color var(--transicio);
+    color: var(--tinta-2);
+    font-size: .875rem;
+    transition: color var(--transicio), background var(--transicio);
 }
 
 .nav-enllac:hover {
-    background: var(--superficie-2);
-    color: var(--text);
-    text-decoration: none;
+    color: var(--tinta);
+    background: var(--fons-2);
+}
+
+.nav-ordinal {
+    font-family: var(--lletra-obra);
+    font-size: .75rem;
+    color: var(--tinta-3);
+    font-variant-numeric: tabular-nums;
 }
 
 .nav-enllac[aria-current="page"] {
-    background: var(--accent-tou);
+    color: var(--accent-2);
+}
+
+.nav-enllac[aria-current="page"] .nav-ordinal {
     color: var(--accent);
 }
 
-/* ---------- Selector d'idioma ---------- */
+/* ---------- Idiomes ----------
+   Tres codis dins d'una caixa amb filets. Les banderes van dibuixades perque
+   Windows no pinta els emojis de bandera i la senyera ni tan sols existeix. */
 
-/* Control segmentat: la pastilla marca l'idioma actiu sense competir amb
-   l'accent, que es reserva per a la secció oberta de la navegació. */
 .idiomes {
     display: flex;
     align-items: center;
-    gap: 2px;
     flex: none;
-    padding: 3px;
-    border-radius: 10px;
-    background: var(--superficie-2);
     border: 1px solid var(--linia);
+    border-radius: var(--r-s);
+    overflow: hidden;
 }
 
 .idioma {
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    padding: 5px 10px;
-    border-radius: var(--r-s);
-    color: var(--text-suau);
-    font-size: var(--t-xs);
+    padding: 7px 10px;
+    color: var(--tinta-3);
+    font-size: .75rem;
     font-weight: 500;
-    white-space: nowrap;
-    transition: background var(--transicio), color var(--transicio);
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    transition: color var(--transicio), background var(--transicio);
+}
+
+.idioma + .idioma {
+    border-left: 1px solid var(--linia);
 }
 
 .idioma:hover {
-    color: var(--text);
-    text-decoration: none;
+    color: var(--tinta);
+    background: var(--fons-2);
 }
 
 .idioma[aria-current="true"] {
-    background: var(--superficie);
-    color: var(--text);
-    font-weight: 600;
-    box-shadow: var(--ombra-1);
+    color: var(--accent-2);
+    background: var(--accent-fons);
 }
 
-/* A fosc la pastilla ha de ser més clara que el carril, no més fosca. */
-@media (prefers-color-scheme: dark) {
-    .idioma[aria-current="true"] {
-        background: var(--superficie-3);
-    }
+.idioma[aria-current="true"]:hover {
+    color: var(--accent-2);
 }
 
 .bandera {
-    width: 18px;
-    height: 12px;
+    width: 16px;
+    height: 11px;
     flex: none;
     border-radius: 2px;
-    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, .18);
+    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, .25);
 }
 
-/* ---------- Estructura de pàgina ---------- */
+/* ---------- Estructura de pagina ---------- */
 
 .pagina {
     flex: 1;
     width: 100%;
-    max-width: var(--amplada);
-    margin: 0 auto;
-    padding: 40px 24px 72px;
+    padding-block: clamp(32px, 5vw, 72px) clamp(64px, 8vw, 128px);
 }
 
-.pagina-estreta {
-    max-width: 720px;
-}
-
-.capcalera {
+.capcalera-seccio {
     display: flex;
+    flex-wrap: wrap;
     align-items: flex-end;
     justify-content: space-between;
-    gap: 24px;
-    flex-wrap: wrap;
-    margin-bottom: 32px;
+    gap: 24px 40px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--linia);
 }
 
-.capcalera h1 {
-    font-size: var(--t-xl);
+.titol-amb-num {
+    display: flex;
+    align-items: baseline;
+    gap: clamp(12px, 1.6vw, 28px);
 }
 
-.capcalera .subtitol {
-    color: var(--text-suau);
-    font-size: var(--t-s);
-    margin-top: 6px;
+.subtitol {
+    margin-top: 12px;
+    color: var(--tinta-2);
+    font-size: .875rem;
 }
 
 .tornar {
     display: inline-flex;
     align-items: center;
-    gap: 6px;
-    color: var(--text-suau);
-    font-size: var(--t-s);
-    margin-bottom: 16px;
+    gap: 8px;
+    margin-bottom: 24px;
+    color: var(--tinta-3);
+    font-size: .75rem;
+    text-transform: uppercase;
+    letter-spacing: .14em;
+    transition: color var(--transicio);
 }
 
 .tornar:hover {
-    color: var(--text);
-    text-decoration: none;
+    color: var(--accent-2);
+}
+
+.tornar .ico-s {
+    transition: transform var(--transicio);
+}
+
+.tornar:hover .ico-s {
+    transform: translateX(-3px);
 }
 
 .peu {
     border-top: 1px solid var(--linia);
-    padding: 24px;
-    text-align: center;
-    color: var(--text-tenue);
-    font-size: var(--t-xs);
+    padding-block: 32px;
+}
+
+.peu-cos {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 8px 24px;
+    color: var(--tinta-3);
+    font-size: .8125rem;
+}
+
+/* ---------- Portada ---------- */
+
+.portada {
+    padding-block: clamp(24px, 4vw, 64px) clamp(56px, 7vw, 112px);
+}
+
+.portada .antetitol {
+    display: block;
+    margin-bottom: clamp(16px, 2vw, 32px);
+}
+
+.portada-entrada {
+    margin-top: clamp(24px, 3vw, 48px);
+    max-width: 52ch;
+    color: var(--tinta-2);
+    font-size: clamp(1rem, 1.2vw, 1.125rem);
+    line-height: 1.65;
+}
+
+/* ---------- Index de seccions ---------- */
+
+.index-seccions {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-top: 1px solid var(--linia);
+}
+
+.index-entrada {
+    border-bottom: 1px solid var(--linia);
+    animation: entra .55s var(--suau) both;
+    animation-delay: calc(min(var(--i, 0), 14) * 70ms);
+}
+
+.index-enllac {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
+    gap: clamp(16px, 3vw, 48px);
+    padding-block: clamp(24px, 3vw, 40px);
+    color: var(--tinta);
+}
+
+.index-enllac:hover {
+    color: var(--tinta);
+}
+
+.index-titol {
+    display: block;
+    font-family: var(--lletra-obra);
+    font-size: clamp(1.5rem, 3.2vw, 3rem);
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -.01em;
+    transition: color var(--transicio);
+}
+
+a.index-enllac:hover .index-titol {
+    color: var(--accent-2);
+}
+
+a.index-enllac:hover .num {
+    -webkit-text-stroke-color: var(--accent);
+}
+
+.index-text {
+    display: block;
+    margin-top: 10px;
+    max-width: 62ch;
+    color: var(--tinta-2);
+    font-size: .9375rem;
+}
+
+.index-fletxa {
+    color: var(--tinta-3);
+    transition: transform var(--transicio), color var(--transicio);
+}
+
+a.index-enllac:hover .index-fletxa {
+    color: var(--accent);
+    transform: translateX(6px);
+}
+
+.index-entrada-apagada .index-titol {
+    color: var(--tinta-3);
+}
+
+.marca-pendent {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 5px 12px;
+    border: 1px dashed var(--linia);
+    border-radius: 999px;
+    color: var(--tinta-3);
+    font-size: .6875rem;
+    text-transform: uppercase;
+    letter-spacing: .14em;
+    white-space: nowrap;
+}
+
+.marca-pendent::before {
+    content: "";
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--tinta-3);
 }
 
 /* ---------- Botons ---------- */
@@ -382,21 +545,18 @@ svg {
     align-items: center;
     justify-content: center;
     gap: 8px;
-    padding: 10px 18px;
+    min-height: 44px;
+    padding: 10px 20px;
     border: 1px solid transparent;
     border-radius: var(--r-s);
     font: inherit;
-    font-size: var(--t-s);
-    font-weight: 500;
+    font-size: .875rem;
+    font-weight: 600;
     line-height: 1.3;
     cursor: pointer;
     white-space: nowrap;
     transition: background var(--transicio), border-color var(--transicio),
-    transform var(--transicio), color var(--transicio);
-}
-
-.boto:hover {
-    text-decoration: none;
+    color var(--transicio), transform var(--transicio);
 }
 
 .boto:active {
@@ -406,168 +566,47 @@ svg {
 .boto-primari {
     background: var(--accent);
     color: var(--sobre-accent);
-    box-shadow: var(--ombra-1);
 }
 
 .boto-primari:hover {
-    background: var(--accent-fosc);
-}
-
-.boto-suau {
-    background: var(--superficie);
-    color: var(--text);
-    border-color: var(--linia-forta);
-}
-
-.boto-suau:hover {
-    background: var(--superficie-2);
+    background: var(--accent-2);
+    color: var(--sobre-accent);
 }
 
 .boto-pla {
     background: transparent;
-    color: var(--text-suau);
-    padding-inline: 12px;
+    color: var(--tinta-3);
 }
 
 .boto-pla:hover {
-    background: var(--superficie-2);
-    color: var(--text);
+    color: var(--tinta);
 }
 
-/* Botons d'icona de les files */
+/* Accions d'una fila */
 .accio {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 32px;
-    height: 32px;
-    border-radius: var(--r-s);
-    color: var(--text-tenue);
+    width: 36px;
+    height: 36px;
     border: 1px solid transparent;
+    border-radius: var(--r-s);
+    color: var(--tinta-3);
     background: transparent;
     cursor: pointer;
-    transition: background var(--transicio), color var(--transicio), border-color var(--transicio);
+    transition: color var(--transicio), border-color var(--transicio), background var(--transicio);
 }
 
 .accio:hover {
-    background: var(--superficie-2);
+    color: var(--accent-2);
     border-color: var(--linia);
-    color: var(--text);
-    text-decoration: none;
+    background: var(--fons-2);
 }
 
 .accio-perill:hover {
-    background: var(--perill-tou);
-    border-color: transparent;
     color: var(--perill);
-}
-
-/* ---------- Targetes ---------- */
-
-.graella-portada {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 16px;
-}
-
-.targeta {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    padding: 24px;
-    background: var(--superficie);
-    border: 1px solid var(--linia);
-    border-radius: var(--r-l);
-    box-shadow: var(--ombra-1);
-    color: var(--text);
-    transition: transform var(--transicio), box-shadow var(--transicio), border-color var(--transicio);
-}
-
-a.targeta:hover {
-    text-decoration: none;
-    transform: translateY(-2px);
-    box-shadow: var(--ombra-2);
-    border-color: var(--linia-forta);
-}
-
-.targeta-emblema {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 40px;
-    height: 40px;
-    border-radius: var(--r-m);
-    background: var(--accent-tou);
-    color: var(--accent);
-}
-
-.targeta h2 {
-    font-size: var(--t-md);
-}
-
-.targeta p {
-    color: var(--text-suau);
-    font-size: var(--t-s);
-    line-height: 1.55;
-}
-
-.targeta-peu {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    margin-top: auto;
-    padding-top: 8px;
-    color: var(--accent);
-    font-size: var(--t-s);
-    font-weight: 500;
-}
-
-a.targeta:hover .targeta-peu .ico-s {
-    transform: translateX(3px);
-}
-
-.targeta-peu .ico-s {
-    transition: transform var(--transicio);
-}
-
-.targeta-apagada {
-    background: transparent;
-    box-shadow: none;
-    border-style: dashed;
-}
-
-.targeta-apagada .targeta-emblema {
-    background: var(--superficie-2);
-    color: var(--text-tenue);
-}
-
-.etiqueta-estat {
-    align-self: flex-start;
-    margin-top: auto;
-    padding: 3px 10px;
-    border-radius: 999px;
-    background: var(--superficie-2);
-    color: var(--text-suau);
-    font-size: var(--t-xs);
-    font-weight: 500;
-}
-
-/* ---------- Portada ---------- */
-
-.portada {
-    padding: 40px 0 48px;
-    max-width: 620px;
-}
-
-.portada h1 {
-    font-size: var(--t-2xl);
-    margin-bottom: 12px;
-}
-
-.portada p {
-    color: var(--text-suau);
-    font-size: var(--t-md);
-    line-height: 1.55;
+    background: var(--perill-fons);
+    border-color: transparent;
 }
 
 /* ---------- Avisos ---------- */
@@ -575,141 +614,227 @@ a.targeta:hover .targeta-peu .ico-s {
 .avis-error {
     display: flex;
     align-items: flex-start;
-    gap: 10px;
-    padding: 14px 16px;
-    margin-bottom: 24px;
+    gap: 12px;
+    margin-top: 32px;
+    padding: 16px 20px;
+    border: 1px solid color-mix(in srgb, var(--perill) 32%, transparent);
     border-radius: var(--r-m);
-    background: var(--perill-tou);
-    border: 1px solid color-mix(in srgb, var(--perill) 28%, transparent);
+    background: var(--perill-fons);
     color: var(--perill);
-    font-size: var(--t-s);
+    font-size: .875rem;
 }
 
 .avis-error .ico-s {
-    margin-top: 2px;
+    margin-top: 3px;
 }
 
-/* ---------- Cercador ---------- */
+/* ---------- Cercador ----------
+   El cataleg es busca abans que s'ullada, aixi que el camp mana a dalt de tot
+   de l'index, ocupa tota l'amplada i nomes duu una regla fina a sota. */
 
-.barra-eines {
+.cerca {
+    position: relative;
     display: flex;
     align-items: center;
     gap: 16px;
-    flex-wrap: wrap;
-    margin-bottom: 16px;
+    margin-top: clamp(32px, 4vw, 56px);
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--linia);
+    transition: border-color var(--transicio);
 }
 
-.cercador {
-    position: relative;
-    flex: 1;
-    min-width: 220px;
-    max-width: 360px;
-}
-
-.cercador .ico-s {
-    position: absolute;
-    left: 12px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: var(--text-tenue);
-    pointer-events: none;
-}
-
-.cercador input {
-    width: 100%;
-    padding: 9px 12px 9px 36px;
-    border: 1px solid var(--linia-forta);
-    border-radius: var(--r-s);
-    background: var(--superficie);
-    color: var(--text);
-    font: inherit;
-    font-size: var(--t-s);
-    transition: border-color var(--transicio), box-shadow var(--transicio);
-}
-
-.cercador input::placeholder {
-    color: var(--text-tenue);
-}
-
-.cercador input:focus {
-    outline: none;
+.cerca:focus-within {
     border-color: var(--accent);
-    box-shadow: 0 0 0 3px var(--accent-tou);
+}
+
+.cerca .ico-l {
+    color: var(--tinta-3);
+    transition: color var(--transicio);
+}
+
+.cerca:focus-within .ico-l {
+    color: var(--accent);
+}
+
+.cerca input {
+    flex: 1;
+    min-width: 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: var(--tinta);
+    font: inherit;
+    font-size: clamp(1.125rem, 2vw, 1.5rem);
+    caret-color: var(--accent);
+}
+
+.cerca input:focus {
+    outline: none;
+}
+
+.cerca input::placeholder {
+    color: var(--tinta-3);
+}
+
+.cerca input::-webkit-search-cancel-button {
+    filter: invert(1) opacity(.5);
+}
+
+.filtres {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px 24px;
+    margin-top: 16px;
+}
+
+.categories {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.categoria-filtre {
+    min-height: 32px;
+    padding: 5px 14px;
+    border: 1px solid var(--linia);
+    border-radius: 999px;
+    background: transparent;
+    color: var(--tinta-2);
+    font: inherit;
+    font-size: .8125rem;
+    cursor: pointer;
+    transition: color var(--transicio), border-color var(--transicio), background var(--transicio);
+}
+
+.categoria-filtre:hover {
+    color: var(--tinta);
+    border-color: var(--tinta-3);
+}
+
+.categoria-filtre[aria-pressed="true"] {
+    background: var(--accent-fons);
+    border-color: color-mix(in srgb, var(--accent) 45%, transparent);
+    color: var(--accent-2);
 }
 
 .recompte {
-    color: var(--text-tenue);
-    font-size: var(--t-s);
+    margin-left: auto;
+    color: var(--tinta-3);
+    font-size: .75rem;
+    text-transform: uppercase;
+    letter-spacing: .14em;
     font-variant-numeric: tabular-nums;
 }
 
-/* ---------- Taula ---------- */
+/* ---------- Index de fitxes ----------
+   Una taula de veritat, perque ordenar per columna i recorrer-la amb teclat
+   depen d'aixo, pero vestida com l'index d'un llibre: files separades per un
+   filet, folis al marge i el nom de l'obra en serif. */
 
-.plafo {
-    background: var(--superficie);
-    border: 1px solid var(--linia);
-    border-radius: var(--r-l);
-    box-shadow: var(--ombra-1);
-    overflow: hidden;
-}
-
-.taula-marc {
+.index-marc {
+    margin-top: clamp(24px, 3vw, 40px);
     overflow-x: auto;
 }
 
 table.taula {
     width: 100%;
     border-collapse: collapse;
-    font-size: var(--t-s);
 }
 
-table.taula th,
-table.taula td {
+table.taula caption {
     text-align: left;
-    padding: 14px 16px;
-    border-bottom: 1px solid var(--linia);
-    vertical-align: middle;
 }
 
-/* La capçalera queda fixada dins del marc que fa scroll horitzontal */
 table.taula thead th {
-    position: sticky;
-    top: 0;
-    z-index: 1;
-    background: var(--superficie-2);
-    color: var(--text-suau);
+    padding: 0 16px 12px;
+    border-bottom: 1px solid var(--linia);
+    text-align: left;
+    color: var(--tinta-3);
+    font-size: .6875rem;
     font-weight: 500;
-    font-size: var(--t-xs);
-    letter-spacing: .04em;
     text-transform: uppercase;
+    letter-spacing: .16em;
     white-space: nowrap;
+    vertical-align: bottom;
+}
+
+table.taula thead th.cel-numerica,
+table.taula thead th.cel-accions {
+    text-align: right;
+}
+
+table.taula tbody {
+    counter-reset: foli;
 }
 
 table.taula tbody tr {
+    counter-increment: foli;
     transition: background var(--transicio);
+    animation: entra .5s var(--suau) both;
+    animation-delay: calc(min(var(--i, 0), 14) * 35ms);
 }
 
 table.taula tbody tr:hover {
-    background: var(--superficie-2);
+    background: var(--fons-2);
 }
 
-table.taula tbody tr:last-child td {
-    border-bottom: 0;
+table.taula td {
+    padding: 20px 16px;
+    border-bottom: 1px solid var(--linia-suau);
+    vertical-align: baseline;
+    font-size: .875rem;
+    color: var(--tinta-2);
 }
 
-.cel-principal {
-    color: var(--text);
-    font-weight: 500;
+/* El foli el pinta un comptador de CSS i no un numero guardat: aixi es torna a
+   numerar sol quan s'ordena per una altra columna o quan es filtra. */
+.cel-foli {
+    width: 1%;
+    padding-right: 0;
+    white-space: nowrap;
+}
+
+td.cel-foli::before {
+    content: counter(foli, decimal-leading-zero);
+    font-family: var(--lletra-obra);
+    font-size: .8125rem;
+    color: var(--tinta-3);
+    font-variant-numeric: tabular-nums;
+}
+
+.cel-obra {
+    font-family: var(--lletra-obra);
+    font-size: clamp(1.125rem, 1.3vw, 1.375rem);
+    line-height: 1.25;
+    color: var(--tinta);
+    min-width: 16ch;
+}
+
+.cel-persona {
+    font-family: var(--lletra-obra);
+    font-size: clamp(1rem, 1.2vw, 1.25rem);
+    line-height: 1.25;
+    color: var(--tinta);
+    min-width: 14ch;
 }
 
 .cel-tenue {
-    color: var(--text-suau);
+    color: var(--tinta-2);
+}
+
+.cel-codi {
+    font-variant-numeric: tabular-nums;
+    letter-spacing: .02em;
+    color: var(--tinta-3);
+    white-space: nowrap;
 }
 
 .cel-numerica {
     text-align: right;
     font-variant-numeric: tabular-nums;
     white-space: nowrap;
+    color: var(--tinta);
 }
 
 th.cel-numerica {
@@ -718,8 +843,8 @@ th.cel-numerica {
 
 .cel-accions {
     width: 1%;
-    white-space: nowrap;
     text-align: right;
+    white-space: nowrap;
 }
 
 .cel-accions .grup {
@@ -728,10 +853,10 @@ th.cel-numerica {
     justify-content: flex-end;
 }
 
-/* Les accions apareixen en passar per sobre, però sempre hi són per a teclat */
-@media (hover: hover) and (min-width: 721px) {
+/* Les accions s'encenen en passar-hi per sobre, pero sempre hi son per a teclat */
+@media (hover: hover) and (min-width: 901px) {
     .cel-accions .grup {
-        opacity: .6;
+        opacity: .45;
         transition: opacity var(--transicio);
     }
 
@@ -741,17 +866,21 @@ th.cel-numerica {
     }
 }
 
-/* Ordenació per columna */
-th.ordenable {
+/* Ordenacio per columna */
+table.taula thead th.ordenable {
     padding: 0;
 }
 
+table.taula thead th.cel-foli {
+    padding-right: 0;
+}
+
 th.ordenable button {
-    display: inline-flex;
+    display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 8px;
     width: 100%;
-    padding: 14px 16px;
+    padding: 0 16px 12px;
     background: none;
     border: 0;
     font: inherit;
@@ -763,12 +892,21 @@ th.ordenable button {
 }
 
 th.ordenable button:hover {
-    color: var(--text);
+    color: var(--tinta);
+}
+
+th.cel-numerica.ordenable button {
+    flex-direction: row-reverse;
+    justify-content: flex-start;
 }
 
 th.ordenable .fletxa {
     opacity: 0;
     transition: opacity var(--transicio), transform var(--transicio);
+}
+
+th[aria-sort] {
+    color: var(--accent);
 }
 
 th[aria-sort] .fletxa {
@@ -783,62 +921,118 @@ th.ordenable button:hover .fletxa {
     opacity: .5;
 }
 
+/* Los correos de la lista se leen como un dato mas: el ambar se reserva para
+   la accion principal de la pantalla. Se subrayan para que sigan pareciendo enlaces. */
+table.taula td a:not(.accio) {
+    color: var(--tinta-2);
+    text-decoration: underline;
+    text-decoration-color: var(--linia);
+    text-underline-offset: 4px;
+    transition: color var(--transicio), text-decoration-color var(--transicio);
+}
+
+table.taula td a:not(.accio):hover {
+    color: var(--accent-2);
+    text-decoration-color: currentColor;
+}
+
 .etiqueta {
     display: inline-block;
     padding: 3px 10px;
+    border: 1px solid var(--linia);
     border-radius: 999px;
-    background: var(--superficie-3);
-    color: var(--text-suau);
-    font-size: var(--t-xs);
+    color: var(--tinta-2);
+    font-size: .75rem;
     white-space: nowrap;
 }
 
 /* ---------- Estats buits ---------- */
 
+.marc-buit {
+    margin-top: clamp(24px, 3vw, 40px);
+    border-top: 1px solid var(--linia);
+}
+
 .buit {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    gap: 8px;
-    padding: 72px 24px;
-    text-align: center;
+    align-items: flex-start;
+    gap: 12px;
+    padding-block: clamp(56px, 8vw, 112px);
+    max-width: 52ch;
 }
 
 .buit .ico-l {
-    color: var(--text-tenue);
-    margin-bottom: 8px;
+    color: var(--tinta-3);
 }
 
 .buit h2 {
-    font-size: var(--t-md);
+    font-family: var(--lletra-obra);
+    font-size: clamp(1.375rem, 2.4vw, 2rem);
+    font-weight: 700;
+    color: var(--tinta);
 }
 
 .buit p {
-    color: var(--text-suau);
-    font-size: var(--t-s);
-    max-width: 38ch;
+    color: var(--tinta-2);
+    font-size: .9375rem;
 }
 
 .buit .boto {
     margin-top: 16px;
 }
 
-/* ---------- Formularis ---------- */
+/* ---------- Fitxa ----------
+   La fitxa es reparteix en dues columnes quan hi ha lloc: a l'esquerra el nom
+   del bloc, a la dreta els camps. El text no s'estira, es reparteix. */
 
-.formulari {
-    padding: 32px;
+.fitxa {
+    margin-top: clamp(32px, 4vw, 56px);
+    max-width: 1100px;
+}
+
+.bloc-camps {
+    display: grid;
+    gap: 24px 48px;
+    padding-block: clamp(28px, 3vw, 44px);
+    border-top: 1px solid var(--linia);
+}
+
+.bloc-camps:first-of-type {
+    border-top: 0;
+    padding-top: 0;
+}
+
+.bloc-nom {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+}
+
+.bloc-nom h2 {
+    font-family: var(--lletra-obra);
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: var(--tinta);
+}
+
+.bloc-foli {
+    font-family: var(--lletra-obra);
+    font-size: .8125rem;
+    color: var(--tinta-3);
+    font-variant-numeric: tabular-nums;
 }
 
 .camps {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 20px 24px;
+    gap: 24px;
 }
 
 .camp {
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: 8px;
 }
 
 .camp-ample {
@@ -846,47 +1040,49 @@ th.ordenable button:hover .fletxa {
 }
 
 .camp label {
-    font-size: var(--t-s);
+    font-size: .75rem;
     font-weight: 500;
-    color: var(--text);
+    text-transform: uppercase;
+    letter-spacing: .14em;
+    color: var(--tinta-3);
 }
 
 .camp input {
     width: 100%;
-    padding: 10px 12px;
-    border: 1px solid var(--linia-forta);
+    padding: 12px 14px;
+    border: 1px solid var(--linia);
     border-radius: var(--r-s);
-    background: var(--fons);
-    color: var(--text);
+    background: var(--fons-2);
+    color: var(--tinta);
     font: inherit;
-    font-size: var(--t-base);
-    transition: border-color var(--transicio), box-shadow var(--transicio), background var(--transicio);
+    font-size: 1rem;
+    caret-color: var(--accent);
+    transition: border-color var(--transicio), background var(--transicio);
 }
 
 .camp input:hover {
-    border-color: var(--text-tenue);
+    border-color: var(--tinta-3);
 }
 
 .camp input:focus {
     outline: none;
     border-color: var(--accent);
-    box-shadow: 0 0 0 3px var(--accent-tou);
-    background: var(--superficie);
+    background: var(--fons-3);
 }
 
 .camp input:read-only {
-    background: var(--superficie-2);
-    color: var(--text-suau);
-    cursor: not-allowed;
     border-style: dashed;
+    background: transparent;
+    color: var(--tinta-2);
+    cursor: not-allowed;
 }
 
 .camp input:read-only:hover {
-    border-color: var(--linia-forta);
+    border-color: var(--linia);
 }
 
 .camp input::placeholder {
-    color: var(--text-tenue);
+    color: var(--tinta-3);
 }
 
 .camp input:user-invalid {
@@ -894,21 +1090,40 @@ th.ordenable button:hover .fletxa {
 }
 
 .pista {
-    font-size: var(--t-xs);
-    color: var(--text-tenue);
+    font-size: .8125rem;
+    color: var(--tinta-3);
+    max-width: 48ch;
 }
 
 .accions-formulari {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     gap: 12px;
-    margin-top: 32px;
-    padding-top: 24px;
+    padding-top: 28px;
     border-top: 1px solid var(--linia);
 }
 
 .accions-formulari .boto-pla {
     margin-left: auto;
+}
+
+/* ---------- Entrada escalonada ---------- */
+
+@keyframes entra {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+.entra {
+    animation: entra .55s var(--suau) both;
+    animation-delay: calc(min(var(--i, 0), 14) * 60ms);
 }
 
 /* ---------- Utilitats ---------- */
@@ -929,52 +1144,61 @@ th.ordenable button:hover .fletxa {
     display: none !important;
 }
 
-/* ---------- Mòbil: la taula passa a fitxes ---------- */
+/* ---------- Composicio ampla ----------
+   A partir d'aqui hi ha lloc per posar el nom del bloc al costat dels camps en
+   comptes de a sobre, i per obrir la portada en dues columnes. */
 
-@media (max-width: 720px) {
-    .pagina {
-        padding: 24px 16px 56px;
+@media (min-width: 1024px) {
+    .bloc-camps {
+        grid-template-columns: minmax(180px, 240px) minmax(0, 1fr);
     }
 
+    .portada-graella {
+        display: grid;
+        grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+        align-items: end;
+        gap: clamp(32px, 4vw, 80px);
+    }
+
+    .portada-entrada {
+        margin-top: 0;
+    }
+}
+
+/* ---------- Estret: l'index passa a fitxes ---------- */
+
+@media (max-width: 900px) {
     .barra-cos {
-        padding: 8px 16px;
-        gap: 8px 12px;
+        gap: 8px 16px;
     }
 
-    /* Ja embolicat: el selector d'idioma ocupa la seva fila, a la dreta. */
+    .navegacio {
+        gap: 0;
+    }
+
+    .nav-enllac {
+        padding-inline: 8px;
+    }
+
     .idiomes {
         margin-left: auto;
     }
 
-    .idioma {
-        padding: 5px 8px;
+    .index-enllac {
+        grid-template-columns: auto minmax(0, 1fr);
     }
 
-    .capcalera {
-        margin-bottom: 24px;
+    .index-fletxa {
+        display: none;
     }
 
-    .capcalera h1 {
-        font-size: var(--t-lg);
+    .marca-pendent {
+        grid-column: 2;
+        justify-self: start;
+        margin-top: 12px;
     }
 
-    .capcalera .boto-primari {
-        width: 100%;
-    }
-
-    .cercador {
-        max-width: none;
-    }
-
-    .plafo {
-        background: transparent;
-        border: 0;
-        box-shadow: none;
-        border-radius: 0;
-        overflow: visible;
-    }
-
-    .taula-marc {
+    .index-marc {
         overflow-x: visible;
     }
 
@@ -990,45 +1214,64 @@ th.ordenable button:hover .fletxa {
         display: none;
     }
 
-    table.taula tr {
-        background: var(--superficie);
-        border: 1px solid var(--linia);
-        border-radius: var(--r-m);
-        box-shadow: var(--ombra-1);
-        padding: 8px 4px;
-        margin-bottom: 12px;
+    table.taula tbody tr {
+        padding: 20px 0 16px;
+        border-bottom: 1px solid var(--linia);
+    }
+
+    table.taula tbody tr:hover {
+        background: transparent;
     }
 
     table.taula td {
         display: flex;
         align-items: baseline;
         justify-content: space-between;
-        gap: 16px;
+        gap: 24px;
+        padding: 4px 0;
         border-bottom: 0;
-        padding: 6px 12px;
         text-align: right;
     }
 
     table.taula td::before {
         content: attr(data-etiqueta);
         flex: none;
-        color: var(--text-tenue);
-        font-size: var(--t-xs);
+        color: var(--tinta-3);
+        font-size: .6875rem;
         text-transform: uppercase;
-        letter-spacing: .04em;
+        letter-spacing: .14em;
         text-align: left;
     }
 
-    table.taula td.cel-principal {
-        font-size: var(--t-base);
+    table.taula td.cel-foli {
+        display: block;
+        padding: 0;
+        text-align: left;
+    }
+
+    table.taula td.cel-foli::before {
+        content: counter(foli, decimal-leading-zero);
+    }
+
+    .cel-obra,
+    .cel-persona {
+        display: block;
+        padding: 2px 0 12px;
+        text-align: left;
+        font-size: 1.25rem;
+    }
+
+    .cel-obra::before,
+    .cel-persona::before {
+        display: none;
     }
 
     .cel-accions {
         width: auto;
         justify-content: flex-end;
-        margin-top: 4px;
-        padding-top: 10px !important;
-        border-top: 1px solid var(--linia) !important;
+        margin-top: 12px;
+        padding-top: 12px;
+        border-top: 1px solid var(--linia-suau);
     }
 
     .cel-accions::before {
@@ -1036,39 +1279,32 @@ th.ordenable button:hover .fletxa {
     }
 
     .accio {
-        width: 40px;
-        height: 40px;
-        border: 1px solid var(--linia);
-    }
-
-    .formulari {
-        padding: 20px 16px;
+        width: 44px;
+        height: 44px;
+        border-color: var(--linia);
     }
 
     .camps {
         grid-template-columns: 1fr;
     }
 
-    .accions-formulari {
-        flex-wrap: wrap;
-    }
-
     .accions-formulari .boto-primari {
         flex: 1;
     }
-
-    .portada h1 {
-        font-size: var(--t-xl);
-    }
 }
 
-/* ---------- Moviment reduït ---------- */
+/* ---------- Moviment reduit ---------- */
 
 @media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+
     *,
     *::before,
     *::after {
         animation-duration: .01ms !important;
+        animation-delay: 0ms !important;
         animation-iteration-count: 1 !important;
         transition-duration: .01ms !important;
         scroll-behavior: auto !important;

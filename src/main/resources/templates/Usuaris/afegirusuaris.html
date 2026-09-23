@@ -6,27 +6,30 @@
 <a class="salta" href="#contingut" th:text="#{nav.saltar}">Ve al contenido</a>
 <header th:replace="~{fragments/base :: barra('usuaris')}"></header>
 
-<main class="pagina pagina-estreta" id="contingut">
+<main class="pagina" id="contingut">
+    <div class="ample">
 
-    <a class="tornar" th:href="@{/usuaris}">
-        <svg class="ico-s" aria-hidden="true">
-            <use href="#esquerra"></use>
-        </svg>
-        <span th:text="#{nav.usuarios}">Usuarios</span>
-    </a>
+        <a class="tornar" th:href="@{/usuaris}">
+            <svg class="ico-s" aria-hidden="true">
+                <use href="#esquerra"></use>
+            </svg>
+            <span th:text="#{nav.usuarios}">Usuarios</span>
+        </a>
 
-    <div class="capcalera">
-        <div>
-            <h1 th:text="#{usuarios.nuevo.titulo}">Nuevo usuario</h1>
-            <p class="subtitol" th:text="#{usuarios.nuevo.subtitulo}">Con el DNI y una manera de contactar es
-                suficiente.</p>
+        <div class="capcalera-seccio">
+            <div>
+                <div class="titol-amb-num">
+                    <span class="num" aria-hidden="true">02</span>
+                    <h1 class="titular titular-l" th:text="#{usuarios.nuevo.titulo}">Nuevo usuario</h1>
+                </div>
+                <p class="subtitol" th:text="#{usuarios.nuevo.subtitulo}">Con el DNI y una manera de contactar
+                    es suficiente.</p>
+            </div>
         </div>
-    </div>
 
-    <div class="plafo">
         <div th:replace="~{fragments/formularis :: usuari(false)}"></div>
-    </div>
 
+    </div>
 </main>
 
 <footer th:replace="~{fragments/base :: peu}"></footer>

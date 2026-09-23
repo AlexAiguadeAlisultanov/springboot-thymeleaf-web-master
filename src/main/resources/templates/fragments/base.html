@@ -10,7 +10,8 @@
 <head th:fragment="cap(clau)">
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
-    <meta name="color-scheme" content="light dark"/>
+    <meta name="color-scheme" content="dark"/>
+    <meta name="theme-color" content="#0B0B0A"/>
     <title th:text="#{${clau}} + ' · ' + #{app.nombre}">Biblioteca</title>
     <link rel="icon" type="image/svg+xml" th:href="@{/img/favicon.svg}"/>
     <link rel="stylesheet" th:href="@{/css/app.css}"/>
@@ -75,26 +76,25 @@
         </symbol>
     </svg>
 
-    <div class="barra-cos">
+    <div class="barra-cos ample">
         <a class="marca" th:href="@{/}">
             <svg class="ico" aria-hidden="true">
                 <use href="#biblioteca"></use>
             </svg>
             <span th:text="#{app.nombre}">Biblioteca</span>
         </a>
+
+        <!-- Las secciones llevan su ordinal delante, el mismo que las numera en la
+             portada, para que se lea como el índice de un libro. -->
         <nav class="navegacio" th:attr="aria-label=#{nav.secciones}">
             <a class="nav-enllac" th:href="@{/llibres}"
                th:attr="aria-current=${seccio == 'llibres'} ? 'page' : null">
-                <svg class="ico-s" aria-hidden="true">
-                    <use href="#llibre"></use>
-                </svg>
+                <span class="nav-ordinal" aria-hidden="true">01</span>
                 <span th:text="#{nav.libros}">Libros</span>
             </a>
             <a class="nav-enllac" th:href="@{/usuaris}"
                th:attr="aria-current=${seccio == 'usuaris'} ? 'page' : null">
-                <svg class="ico-s" aria-hidden="true">
-                    <use href="#usuaris"></use>
-                </svg>
+                <span class="nav-ordinal" aria-hidden="true">02</span>
                 <span th:text="#{nav.usuarios}">Usuarios</span>
             </a>
         </nav>
@@ -104,16 +104,17 @@
              Las banderas van dibujadas: Windows no pinta los emojis de bandera
              y la senyera ni siquiera existe como emoji. -->
         <nav class="idiomes" th:attr="aria-label=#{idioma.grupo}">
-            <a class="idioma" href="?lang=es" hreflang="es"
-               th:attr="aria-current=${#locale.language == 'es'} ? 'true' : null">
+            <a class="idioma" href="?lang=es" hreflang="es" th:attr="title=#{idioma.es},
+               aria-current=${#locale.language == 'es'} ? 'true' : null">
                 <svg class="bandera" viewBox="0 0 30 20" aria-hidden="true" focusable="false">
                     <rect width="30" height="20" fill="#AA151B"/>
                     <rect y="5" width="30" height="10" fill="#F1BF00"/>
                 </svg>
-                <span th:text="#{idioma.es}">Castellano</span>
+                <span aria-hidden="true">es</span>
+                <span class="nomes-lector" th:text="#{idioma.es}">Castellano</span>
             </a>
-            <a class="idioma" href="?lang=ca" hreflang="ca"
-               th:attr="aria-current=${#locale.language == 'ca'} ? 'true' : null">
+            <a class="idioma" href="?lang=ca" hreflang="ca" th:attr="title=#{idioma.ca},
+               aria-current=${#locale.language == 'ca'} ? 'true' : null">
                 <svg class="bandera" viewBox="0 0 27 18" aria-hidden="true" focusable="false">
                     <rect width="27" height="18" fill="#FCDD09"/>
                     <rect y="2" width="27" height="2" fill="#DA121A"/>
@@ -121,10 +122,11 @@
                     <rect y="10" width="27" height="2" fill="#DA121A"/>
                     <rect y="14" width="27" height="2" fill="#DA121A"/>
                 </svg>
-                <span th:text="#{idioma.ca}">Català</span>
+                <span aria-hidden="true">ca</span>
+                <span class="nomes-lector" th:text="#{idioma.ca}">Català</span>
             </a>
-            <a class="idioma" href="?lang=en" hreflang="en"
-               th:attr="aria-current=${#locale.language == 'en'} ? 'true' : null">
+            <a class="idioma" href="?lang=en" hreflang="en" th:attr="title=#{idioma.en},
+               aria-current=${#locale.language == 'en'} ? 'true' : null">
                 <svg class="bandera" viewBox="0 0 60 40" aria-hidden="true" focusable="false">
                     <clipPath id="quarts-uk">
                         <path d="M30,20 h30 v20 z v20 h-30 z h-30 v-20 z v-20 h30 z"/>
@@ -136,14 +138,18 @@
                     <path d="M30,0 V40 M0,20 H60" fill="none" stroke="#FFFFFF" stroke-width="13"/>
                     <path d="M30,0 V40 M0,20 H60" fill="none" stroke="#C8102E" stroke-width="8"/>
                 </svg>
-                <span th:text="#{idioma.en}">English</span>
+                <span aria-hidden="true">en</span>
+                <span class="nomes-lector" th:text="#{idioma.en}">English</span>
             </a>
         </nav>
     </div>
 </header>
 
 <footer class="peu" th:fragment="peu">
-    <p th:text="#{app.pie}">Biblioteca. Catálogo de libros y usuarios.</p>
+    <div class="peu-cos ample">
+        <p th:text="#{app.pie}">Biblioteca. Catálogo de libros y usuarios.</p>
+        <p th:text="#{app.pie.prestamos}">Préstamos, pendiente de hacer.</p>
+    </div>
 </footer>
 
 </body>

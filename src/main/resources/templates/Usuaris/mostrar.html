@@ -7,38 +7,42 @@
 <header th:replace="~{fragments/base :: barra('usuaris')}"></header>
 
 <main class="pagina" id="contingut">
+    <div class="ample">
 
-    <div class="capcalera">
-        <div>
-            <h1 th:text="#{usuarios.titulo}">Usuarios</h1>
-            <p class="subtitol">
-                <span th:if="${#lists.size(usuaris) == 1}" th:text="#{usuarios.recuento.uno}">1 persona con
-                    carné</span>
-                <span th:unless="${#lists.size(usuaris) == 1}"
-                      th:text="#{usuarios.recuento.varios(${#lists.size(usuaris)})}">0 personas con carné</span>
-            </p>
-        </div>
-        <a class="boto boto-primari" th:href="@{/afegirusuari}">
-            <svg class="ico-s" aria-hidden="true">
-                <use href="#mes"></use>
-            </svg>
-            <span th:text="#{usuarios.anadir}">Añade un usuario</span>
-        </a>
-    </div>
-
-    <!-- El controlador manda un código de error; aquí se traduce al idioma activo. -->
-    <div class="avis-error" role="alert" th:if="${error}">
-        <svg class="ico-s" aria-hidden="true">
-            <use href="#avis"></use>
-        </svg>
-        <span th:text="${#messages.msgOrNull('error.' + error, ref)} ?: ${error}">Mensaje de error</span>
-    </div>
-
-    <div th:if="${not #lists.isEmpty(usuaris)}">
-
-        <div class="barra-eines">
-            <div class="cercador">
+        <div class="capcalera-seccio">
+            <div>
+                <div class="titol-amb-num">
+                    <span class="num" aria-hidden="true">02</span>
+                    <h1 class="titular titular-l" th:text="#{usuarios.titulo}">Usuarios</h1>
+                </div>
+                <p class="subtitol">
+                    <span th:if="${#lists.size(usuaris) == 1}" th:text="#{usuarios.recuento.uno}">1 persona
+                        con carné</span>
+                    <span th:unless="${#lists.size(usuaris) == 1}"
+                          th:text="#{usuarios.recuento.varios(${#lists.size(usuaris)})}">0 personas con
+                        carné</span>
+                </p>
+            </div>
+            <a class="boto boto-primari" th:href="@{/afegirusuari}">
                 <svg class="ico-s" aria-hidden="true">
+                    <use href="#mes"></use>
+                </svg>
+                <span th:text="#{usuarios.anadir}">Añade un usuario</span>
+            </a>
+        </div>
+
+        <!-- El controlador manda un código de error; aquí se traduce al idioma activo. -->
+        <div class="avis-error" role="alert" th:if="${error}">
+            <svg class="ico-s" aria-hidden="true">
+                <use href="#avis"></use>
+            </svg>
+            <span th:text="${#messages.msgOrNull('error.' + error, ref)} ?: ${error}">Mensaje de error</span>
+        </div>
+
+        <div th:if="${not #lists.isEmpty(usuaris)}">
+
+            <div class="cerca">
+                <svg class="ico-l" aria-hidden="true">
                     <use href="#cercar"></use>
                 </svg>
                 <label class="nomes-lector" for="cerca-usuaris" th:text="#{usuarios.buscar.etiqueta}">Busca
@@ -46,17 +50,21 @@
                 <input type="search" id="cerca-usuaris" data-cerca="taula-usuaris" autocomplete="off"
                        th:attr="placeholder=#{usuarios.buscar.marcador}"/>
             </div>
-            <p class="recompte" data-recompte="taula-usuaris" aria-live="polite"
-               th:attr="data-plantilla-filtre=#{usuarios.contador.filtrado}"
-               th:text="#{usuarios.contador(${#lists.size(usuaris)})}">0 usuarios</p>
-        </div>
 
-        <div class="plafo">
-            <div class="taula-marc">
+            <div class="filtres">
+                <p class="recompte" data-recompte="taula-usuaris" aria-live="polite"
+                   th:attr="data-plantilla-filtre=#{usuarios.contador.filtrado}"
+                   th:text="#{usuarios.contador(${#lists.size(usuaris)})}">0 usuarios</p>
+            </div>
+
+            <div class="index-marc">
                 <table class="taula" id="taula-usuaris">
                     <caption class="nomes-lector" th:text="#{usuarios.leyenda}">Usuarios con carné</caption>
                     <thead>
                     <tr>
+                        <th scope="col" class="cel-foli">
+                            <span class="nomes-lector" th:text="#{tabla.orden}">Posición</span>
+                        </th>
                         <th scope="col" class="ordenable" data-tipus="text">
                             <button type="button">
                                 <span th:text="#{campo.nombre}">Nombre</span>
@@ -81,14 +89,15 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr th:each="usuari : ${usuaris}">
-                        <td class="cel-principal" th:attr="data-etiqueta=#{campo.nombre}"
+                    <tr th:each="usuari,estat : ${usuaris}" th:style="'--i:' + ${estat.index}">
+                        <td class="cel-foli" data-etiqueta=""></td>
+                        <td class="cel-persona" th:attr="data-etiqueta=#{campo.nombre}"
                             th:text="${usuari.nom}">Nombre
                         </td>
-                        <td class="cel-tenue" th:attr="data-etiqueta=#{campo.dni}"
+                        <td class="cel-codi" th:attr="data-etiqueta=#{campo.dni}"
                             th:text="${usuari.dni}">DNI
                         </td>
-                        <td class="cel-tenue" th:attr="data-etiqueta=#{campo.telefono}"
+                        <td class="cel-codi" th:attr="data-etiqueta=#{campo.telefono}"
                             th:text="${usuari.telefon}">Teléfono
                         </td>
                         <td th:attr="data-etiqueta=#{campo.correo}">
@@ -132,27 +141,27 @@
                         apellido.</span>
                 </p>
             </div>
+
         </div>
 
-    </div>
-
-    <div class="plafo" th:if="${#lists.isEmpty(usuaris)}">
-        <div class="buit">
-            <svg class="ico-l" aria-hidden="true">
-                <use href="#usuaris"></use>
-            </svg>
-            <h2 th:text="#{usuarios.vacio.titulo}">Todavía no hay nadie</h2>
-            <p th:text="#{usuarios.vacio.texto}">Da de alta a la primera persona y aquí tendrás sus datos de
-                contacto.</p>
-            <a class="boto boto-primari" th:href="@{/afegirusuari}">
-                <svg class="ico-s" aria-hidden="true">
-                    <use href="#mes"></use>
+        <div class="marc-buit" th:if="${#lists.isEmpty(usuaris)}">
+            <div class="buit">
+                <svg class="ico-l" aria-hidden="true">
+                    <use href="#usuaris"></use>
                 </svg>
-                <span th:text="#{usuarios.vacio.accion}">Añade el primer usuario</span>
-            </a>
+                <h2 th:text="#{usuarios.vacio.titulo}">Todavía no hay nadie</h2>
+                <p th:text="#{usuarios.vacio.texto}">Da de alta a la primera persona y aquí tendrás sus datos
+                    de contacto.</p>
+                <a class="boto boto-primari" th:href="@{/afegirusuari}">
+                    <svg class="ico-s" aria-hidden="true">
+                        <use href="#mes"></use>
+                    </svg>
+                    <span th:text="#{usuarios.vacio.accion}">Añade el primer usuario</span>
+                </a>
+            </div>
         </div>
-    </div>
 
+    </div>
 </main>
 
 <footer th:replace="~{fragments/base :: peu}"></footer>

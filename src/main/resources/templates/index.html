@@ -8,59 +8,64 @@
 
 <main class="pagina" id="contingut">
 
-    <section class="portada">
-        <h1 th:text="#{inicio.titulo}">La biblioteca, en orden</h1>
-        <p th:text="#{inicio.entrada}">Consulta el catálogo, da de alta títulos nuevos y lleva al día los
-            datos de quien tiene carné.</p>
+    <section class="portada ample">
+        <span class="antetitol" th:text="#{inicio.antetitulo}">Catálogo y carnés</span>
+        <div class="portada-graella">
+            <h1 class="titular titular-xxl" th:text="#{inicio.titulo}">La biblioteca, en orden</h1>
+            <p class="portada-entrada" th:text="#{inicio.entrada}">Consulta el catálogo, da de alta títulos
+                nuevos y lleva al día los datos de quien tiene carné.</p>
+        </div>
     </section>
 
-    <div class="graella-portada">
+    <!-- El índice de la casa: cada sección con su número, como los capítulos de un
+         libro. Préstamos sale igual que las demás pero sin enlace, porque todavía
+         no hay pantalla que abrir. -->
+    <section class="ample">
+        <h2 class="nomes-lector" th:text="#{inicio.indice}">El índice</h2>
+        <ol class="index-seccions">
 
-        <a class="targeta" th:href="@{/llibres}">
-            <span class="targeta-emblema">
-                <svg class="ico" aria-hidden="true">
-                    <use href="#llibre"></use>
-                </svg>
-            </span>
-            <h2 th:text="#{inicio.libros.titulo}">Libros</h2>
-            <p th:text="#{inicio.libros.texto}">Todo el catálogo con el título, el autor, la editorial y el
-                precio.</p>
-            <span class="targeta-peu">
-                <span th:text="#{inicio.libros.accion}">Abre el catálogo</span>
-                <svg class="ico-s" aria-hidden="true">
-                    <use href="#dreta"></use>
-                </svg>
-            </span>
-        </a>
+            <li class="index-entrada" style="--i:0">
+                <a class="index-enllac" th:href="@{/llibres}">
+                    <span class="num" aria-hidden="true">01</span>
+                    <span class="index-cos">
+                        <span class="index-titol" th:text="#{inicio.libros.titulo}">Libros</span>
+                        <span class="index-text" th:text="#{inicio.libros.texto}">Todo el catálogo con el
+                            título, el autor, la editorial y el precio.</span>
+                    </span>
+                    <svg class="ico-l index-fletxa" aria-hidden="true">
+                        <use href="#dreta"></use>
+                    </svg>
+                </a>
+            </li>
 
-        <a class="targeta" th:href="@{/usuaris}">
-            <span class="targeta-emblema">
-                <svg class="ico" aria-hidden="true">
-                    <use href="#usuaris"></use>
-                </svg>
-            </span>
-            <h2 th:text="#{inicio.usuarios.titulo}">Usuarios</h2>
-            <p th:text="#{inicio.usuarios.texto}">Quién tiene carné, con el DNI, el teléfono y el correo.</p>
-            <span class="targeta-peu">
-                <span th:text="#{inicio.usuarios.accion}">Abre la lista</span>
-                <svg class="ico-s" aria-hidden="true">
-                    <use href="#dreta"></use>
-                </svg>
-            </span>
-        </a>
+            <li class="index-entrada" style="--i:1">
+                <a class="index-enllac" th:href="@{/usuaris}">
+                    <span class="num" aria-hidden="true">02</span>
+                    <span class="index-cos">
+                        <span class="index-titol" th:text="#{inicio.usuarios.titulo}">Usuarios</span>
+                        <span class="index-text" th:text="#{inicio.usuarios.texto}">Quién tiene carné, con el
+                            DNI, el teléfono y el correo.</span>
+                    </span>
+                    <svg class="ico-l index-fletxa" aria-hidden="true">
+                        <use href="#dreta"></use>
+                    </svg>
+                </a>
+            </li>
 
-        <div class="targeta targeta-apagada">
-            <span class="targeta-emblema">
-                <svg class="ico" aria-hidden="true">
-                    <use href="#prestec"></use>
-                </svg>
-            </span>
-            <h2 th:text="#{inicio.prestamos.titulo}">Préstamos</h2>
-            <p th:text="#{inicio.prestamos.texto}">Todavía no hay pantalla para ver quién tiene cada libro.</p>
-            <span class="etiqueta-estat" th:text="#{inicio.prestamos.estado}">Pendiente de hacer</span>
-        </div>
+            <li class="index-entrada index-entrada-apagada" style="--i:2">
+                <div class="index-enllac">
+                    <span class="num" aria-hidden="true">03</span>
+                    <span class="index-cos">
+                        <span class="index-titol" th:text="#{inicio.prestamos.titulo}">Préstamos</span>
+                        <span class="index-text" th:text="#{inicio.prestamos.texto}">Todavía no hay pantalla
+                            para ver quién tiene cada libro.</span>
+                    </span>
+                    <span class="marca-pendent" th:text="#{inicio.prestamos.estado}">Pendiente de hacer</span>
+                </div>
+            </li>
 
-    </div>
+        </ol>
+    </section>
 
 </main>
 

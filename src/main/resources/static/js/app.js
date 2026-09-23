@@ -1,28 +1,33 @@
-/* Biblioteca. Filtre, ordenació i confirmació d'esborrat.
-   Tot passa al navegador: no hi ha cap petició nova ni cap ruta nova. */
+/* Biblioteca. Filtre de text, filtre per categoria, ordenacio i confirmacio d'esborrat.
+   Tot passa al navegador: no hi ha cap peticio nova ni cap ruta nova. Sense JavaScript
+   la taula es veu sencera i ordenada com la torna el servidor. */
 
 (function () {
     'use strict';
 
-    /* Filtre de text sobre les files de la taula */
-    function muntaCercador(taula) {
+    /* Filtre: text lliure i categoria es combinen, no es substitueixen */
+    function muntaFiltres(taula) {
         var camp = document.querySelector('[data-cerca="' + taula.id + '"]');
-        if (!camp) return;
+        var caixaCategories = document.querySelector('[data-categories="' + taula.id + '"]');
+        if (!camp && !caixaCategories) return;
 
         var recompte = document.querySelector('[data-recompte="' + taula.id + '"]');
         var senseResultats = document.querySelector('[data-sense-resultats="' + taula.id + '"]');
         var files = Array.prototype.slice.call(taula.tBodies[0].rows);
         var total = files.length;
-        /* El text de partida ja arriba traduït del servidor. Per al recompte filtrat
+        /* El text de partida ja arriba traduit del servidor. Per al recompte filtrat
            el servidor deixa la plantilla a data-plantilla-filtre, amb {v} i {n}. */
         var textTotal = recompte ? recompte.textContent : '';
+        var categoria = '';
 
         function filtra() {
-            var text = camp.value.trim().toLowerCase();
+            var text = camp ? camp.value.trim().toLowerCase() : '';
             var visibles = 0;
 
             files.forEach(function (fila) {
-                var coincideix = text === '' || fila.textContent.toLowerCase().indexOf(text) !== -1;
+                var perText = text === '' || fila.textContent.toLowerCase().indexOf(text) !== -1;
+                var perCategoria = categoria === '' || (fila.dataset.categoria || '') === categoria;
+                var coincideix = perText && perCategoria;
                 fila.hidden = !coincideix;
                 if (coincideix) visibles++;
             });
@@ -37,20 +42,55 @@
             if (senseResultats) {
                 senseResultats.hidden = visibles !== 0;
                 var consulta = senseResultats.querySelector('[data-consulta]');
-                if (consulta) consulta.textContent = camp.value.trim();
+                if (consulta) consulta.textContent = camp ? camp.value.trim() : categoria;
             }
         }
 
-        camp.addEventListener('input', filtra);
-        camp.addEventListener('keydown', function (e) {
-            if (e.key === 'Escape' && camp.value !== '') {
-                camp.value = '';
-                filtra();
+        if (camp) {
+            camp.addEventListener('input', filtra);
+            camp.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape' && camp.value !== '') {
+                    camp.value = '';
+                    filtra();
+                }
+            });
+        }
+
+        /* Les categories surten de la mateixa taula, aixi que la llista sempre es la
+           de debo i no cal cap consulta nova. Amb una sola categoria no aporten res. */
+        if (caixaCategories) {
+            var noms = [];
+            files.forEach(function (fila) {
+                var nom = (fila.dataset.categoria || '').trim();
+                if (nom !== '' && noms.indexOf(nom) === -1) noms.push(nom);
+            });
+            if (noms.length > 1) {
+                noms.sort(function (a, b) {
+                    return a.localeCompare(b);
+                });
+                noms.unshift('');
+
+                var botons = noms.map(function (nom) {
+                    var boto = document.createElement('button');
+                    boto.type = 'button';
+                    boto.className = 'categoria-filtre';
+                    boto.textContent = nom === '' ? (caixaCategories.dataset.totes || '·') : nom;
+                    boto.setAttribute('aria-pressed', nom === '' ? 'true' : 'false');
+                    boto.addEventListener('click', function () {
+                        categoria = nom;
+                        botons.forEach(function (altre) {
+                            altre.setAttribute('aria-pressed', altre === boto ? 'true' : 'false');
+                        });
+                        filtra();
+                    });
+                    caixaCategories.appendChild(boto);
+                    return boto;
+                });
             }
-        });
+        }
     }
 
-    /* Ordenació per columna, clicant la capçalera */
+    /* Ordenacio per columna, clicant la capcalera */
     function muntaOrdenacio(taula) {
         var cos = taula.tBodies[0];
 
@@ -86,7 +126,7 @@
             var crua = cela.dataset.valor;
 
             if (numeric) {
-                /* data-valor ja porta el número tal com surt de la base de dades */
+                /* data-valor ja porta el numero tal com surt de la base de dades */
                 var n = crua !== undefined
                     ? parseFloat(crua)
                     : parseFloat(cela.textContent.replace(/\s/g, '').replace(/\./g, '').replace(',', '.').replace(/[^0-9.\-]/g, ''));
@@ -99,11 +139,11 @@
 
     document.querySelectorAll('table.taula').forEach(function (taula) {
         if (!taula.tBodies.length || !taula.tBodies[0].rows.length) return;
-        muntaCercador(taula);
+        muntaFiltres(taula);
         if (taula.tHead) muntaOrdenacio(taula);
     });
 
-    /* Esborrar demana confirmació abans d'anar a la ruta */
+    /* Esborrar demana confirmacio abans d'anar a la ruta */
     document.querySelectorAll('[data-confirma]').forEach(function (enllac) {
         enllac.addEventListener('click', function (e) {
             if (!window.confirm(enllac.dataset.confirma)) {
